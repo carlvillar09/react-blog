@@ -10,10 +10,10 @@ const EditBlog = () => {
   const [content, setContent] = useState('');
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { blogs, loading, error } = useSelector((state: RootState) => state.blog);
+  const { blogs, loading, error } = useSelector((state: RootState) => state.blog) as any;
 
   useEffect(() => {
-    const blog = blogs.find((b) => b.id === id);
+    const blog = blogs.find((b: any) => b.id === id);
     if (blog) {
       setTitle(blog.title);
       setContent(blog.content);
@@ -32,31 +32,57 @@ const EditBlog = () => {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Edit Blog</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
+    <div className="page-container">
+      <div className="form-container">
+        <div className="page-header">
+          <h1>✏️ Edit Article</h1>
+          <p>Update your article content</p>
         </div>
-        <div>
-          <label>Content:</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Updating...' : 'Update'}
-        </button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        {error && <div className="alert alert-error">{error}</div>}
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="title">Article Title</label>
+            <input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              placeholder="Enter your article title"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="content">Content</label>
+            <textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
+              placeholder="Write your article content here..."
+              rows={10}
+              style={{ minHeight: '300px' }}
+            />
+          </div>
+          <div className="btn-group">
+            <button type="submit" disabled={loading} style={{ flex: 1 }}>
+              {loading ? 'Updating...' : '💾 Save Changes'}
+            </button>
+            <button 
+              type="button" 
+              onClick={() => navigate('/')}
+              style={{ 
+                flex: 1, 
+                backgroundColor: '#6b7280',
+                color: 'white'
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

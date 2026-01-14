@@ -9,6 +9,7 @@ import BlogList from './pages/BlogList';
 import CreateBlog from './pages/CreateBlog';
 import EditBlog from './pages/EditBlog';
 import Navbar from './components/Navbar';
+import './App.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -34,13 +35,15 @@ function App() {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<BlogList />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/create" element={<CreateBlog />} />
-        <Route path="/edit/:id" element={<EditBlog />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<BlogList />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/create" element={<CreateBlog />} />
+          <Route path="/edit/:id" element={<EditBlog />} />
+        </Routes>
+      </main>
     </>
   );
 }
